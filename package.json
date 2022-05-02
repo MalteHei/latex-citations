@@ -12,6 +12,13 @@
 		"Language Packs",
 		"Education"
 	],
+	"keywords": [
+		"latex",
+		"biblatex",
+		"cite",
+		"intellisense",
+		"code completion"
+	],
 	"activationEvents": [
 		"onStartupFinished"
 	],
@@ -21,6 +28,19 @@
 			{
 				"command": "bibtex-citer.readLibraries",
 				"title": "BibTeX-Citer: Read Keys from .bib-Files"
+			}
+		],
+		"languages": [
+			{
+				"id": "latex",
+				"aliases": [
+					"LaTeX",
+					"TeX"
+				],
+				"extensions": [
+					".tex",
+					".bib"
+				]
 			}
 		]
 	},
