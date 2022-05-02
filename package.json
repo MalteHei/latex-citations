@@ -2,7 +2,7 @@
 	"name": "bibtex-citer",
 	"displayName": "BibTeX Citer",
 	"description": "Intellisense for Keys from of your BibTeX libraries.",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"publisher": "maltehei",
 	"repository": "https://github.com/MalteHei/bibtex-citer",
 	"bugs": "https://github.com/MalteHei/bibtex-citer/issues",
