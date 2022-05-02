@@ -5,6 +5,7 @@
 	"version": "1.0.0",
 	"publisher": "maltehei",
 	"repository": "https://github.com/MalteHei/bibtex-citer",
+	"bugs": "https://github.com/MalteHei/bibtex-citer/issues",
 	"engines": {
 		"vscode": "^1.66.0"
 	},
