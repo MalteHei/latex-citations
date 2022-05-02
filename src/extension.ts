@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 const BIBKEYS = 'BIBKEYS';
 const bibFileGlob = '**/*.bib';
 
-function readLibraries(ctx: vscode.ExtensionContext): string[] {
+function readLibraries(ctx: vscode.ExtensionContext, options?: { manual?: boolean }): string[] {
 	const regexBibkeys = /^\@(?<type>\w+)\{(?<bibkey>[^,]+),$/gm;
 	const keys: string[] = [];
 	console.log(`reading all .bib files`);
@@ -30,7 +30,9 @@ function readLibraries(ctx: vscode.ExtensionContext): string[] {
 		});
 
 		console.log(`done reading .bib files!`);
-		// vscode.window.showInformationMessage('Finished updating bib keys!');
+		if (options?.manual) {
+			vscode.window.showInformationMessage('Finished updating bib keys!');
+		}
 	});
 	return keys;
 }
@@ -60,7 +62,7 @@ export function activate(context: vscode.ExtensionContext) {
 	disposables.push(watcher.onDidDelete(_ => readLibraries(context)));
 
 	// register command to manually read libraries
-	disposables.push(vscode.commands.registerTextEditorCommand('bibtex-citer.readLibraries', () => readLibraries(context)));
+	disposables.push(vscode.commands.registerTextEditorCommand('bibtex-citer.readLibraries', () => readLibraries(context, { manual: true })));
 
 	// register intellisense provider
 	disposables.push(vscode.languages.registerCompletionItemProvider({ scheme: 'file', language: 'latex' }, getLatexProvider(context), '{'));
