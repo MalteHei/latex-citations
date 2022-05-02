@@ -2,14 +2,16 @@ import { readFileSync } from 'fs';
 import * as vscode from 'vscode';
 
 const BIBKEYS = 'BIBKEYS';
+const bibFileGlob = '**/*.bib';
 
 function readLibraries(ctx: vscode.ExtensionContext): string[] {
 	const regexBibkeys = /^\@(?<type>\w+)\{(?<bibkey>[^,]+),$/gm;
 	const keys: string[] = [];
 	console.log(`reading all .bib files`);
-	vscode.workspace.findFiles('**/*.bib').then(uris => {
+	vscode.workspace.findFiles(bibFileGlob).then(uris => {
 		console.log(`found some .bib files; deleting current keys...`);
 		ctx.workspaceState.update(BIBKEYS, undefined);
+
 		uris.forEach(uri => {
 			const fileName = uri.path.replace(/.*\//, '');
 			console.log(`reading contents of file ${fileName}`);
@@ -26,6 +28,7 @@ function readLibraries(ctx: vscode.ExtensionContext): string[] {
 			} while ((match = regexBibkeys.exec(data)) !== null);
 			console.log(`found ${count} keys in ${fileName}`);
 		});
+
 		console.log(`done reading .bib files!`);
 		// vscode.window.showInformationMessage('Finished updating bib keys!');
 	});
@@ -46,12 +49,22 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log('Activating "bibtex-citer"');
 	const disposables: vscode.Disposable[] = [];
 
+	// initially read libraries
 	readLibraries(context);
 
-	disposables.push(vscode.commands.registerTextEditorCommand('bibtex-citer.readLibraries', () => readLibraries(context)));
-	disposables.push(vscode.languages.registerCompletionItemProvider({scheme: 'file', language: 'latex'}, getLatexProvider(context), '{'));
+	// re-read libraries when a library was changed
+	const watcher = vscode.workspace.createFileSystemWatcher(bibFileGlob, false, false, false);
+	disposables.push(watcher);
+	disposables.push(watcher.onDidChange(_ => readLibraries(context)));
+	disposables.push(watcher.onDidCreate(_ => readLibraries(context)));
+	disposables.push(watcher.onDidDelete(_ => readLibraries(context)));
 
-	console.log('ACTIVATED');
+	// register command to manually read libraries
+	disposables.push(vscode.commands.registerTextEditorCommand('bibtex-citer.readLibraries', () => readLibraries(context)));
+
+	// register intellisense provider
+	disposables.push(vscode.languages.registerCompletionItemProvider({ scheme: 'file', language: 'latex' }, getLatexProvider(context), '{'));
+
 	context.subscriptions.push(...disposables);
 }
 
