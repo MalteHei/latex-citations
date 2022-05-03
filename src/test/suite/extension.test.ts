@@ -4,6 +4,7 @@ import * as assert from 'assert';
 // as well as import your extension to test it
 import * as vscode from 'vscode';
 import * as extension from '../../extension';
+import { Intellisense } from '../../intellisense';
 
 suite('BibTeX-Citer Intellisense', () => {
 	test('doesAnyCommandMatchLine', () => {
@@ -16,9 +17,8 @@ suite('BibTeX-Citer Intellisense', () => {
 		const lines: string[] = [];
 
 		// http://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf
-		const citeCommands: BaseCiteCommand[] = [
-			/** Custom */
-			{ command: 'vgl', numOptionals: 1 },
+		// https://de.overleaf.com/learn/latex/Natbib_citation_styles
+		const baseCommands: BaseCiteCommand[] = [
 			/** BibLaTex */
 			// standard
 			{ command: 'cite', numOptionals: 2 },
@@ -59,20 +59,20 @@ suite('BibTeX-Citer Intellisense', () => {
 		];
 
 		// populate `commandsToTest`
-		citeCommands.forEach(cc => {
-			lines.push(`\\${cc.command}{`);
-			lines.push(`Some Text\\${cc.command}{`);
-			for (let i = 1; i <= cc.numOptionals; i++) {
+		baseCommands.forEach(base => {
+			lines.push(`\\${base.command}{`);
+			lines.push(`Some Text\\${base.command}{`);
+			for (let i = 1; i <= base.numOptionals; i++) {
 				// empty optional
-				lines.push(`\\${cc.command}${'[]'.repeat(i)}{`);
+				lines.push(`\\${base.command}${'[]'.repeat(i)}{`);
 
-				// optional with content + other empty optionals in front
-				lines.push(`\\${cc.command}${'[]'.repeat(i - 1)}[optional${i}]{`);
+				// other empty optionals in front + current optional with content
+				lines.push(`\\${base.command}${'[]'.repeat(i - 1)}[optional${i}]{`);
 			}
 		});
 
 		lines.forEach(line => {
-			if (!extension.doesAnyCommandMatchLine(line)) {
+			if (!Intellisense.matchAnyPattern(line)) {
 				assert.fail(`no regex matched for ${line}`);
 			}
 		});
