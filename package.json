@@ -65,7 +65,10 @@
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
 		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
+		"test": "node ./out/test/runTest.js",
+		"publish:major": "vsce publish major",
+		"publish:minor": "vsce publish minor",
+		"publish:patch": "vsce publish patch"
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.66.0",
