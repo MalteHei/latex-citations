@@ -48,6 +48,6 @@ export class CommandPatterns {
 		const conf = vscode.workspace.getConfiguration('bibtex-citer');
 		const patterns: string[] = conf.get('customCommandPatterns') || [];
 	
-		return patterns.map(p => `\\${p}{`).map(p => new RegExp(p));
+		return patterns.map(p => `\\\\${p}{`).map(p => new RegExp(p));
 	}
 }
