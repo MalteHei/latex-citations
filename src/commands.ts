@@ -14,7 +14,7 @@ export class Commands {
 
 		// command to invoke updating bibkeys
 		disposables.push(vscode.commands.registerTextEditorCommand(
-			this.COMMANDS.find(c => c.shortTitle.startsWith('Update')).command,
+			this.COMMANDS.find(c => c.shortTitle.startsWith('Update'))?.command as string,
 			() => FileReader.updateAndGetBibKeys(ctx, { manual: true })
 		));
 
