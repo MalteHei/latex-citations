@@ -4,7 +4,8 @@ import * as vscode from 'vscode';
 export class CommandPatterns {
 	private static customPatterns: RegExp[] = [];
 	private static commandPatterns: RegExp[] = [
-		// /\\vgl(?<optional>\[.*\])?{$/i,
+		// http://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf
+		// https://de.overleaf.com/learn/latex/Natbib_citation_styles
 		/* standard */
 		/\\(cite|parencite|footcite|footcitetext)\*?(?<optional>\[.*\]){0,2}{$/i,
 		/* common */
@@ -45,8 +46,8 @@ export class CommandPatterns {
 
 	private static getCustomPatternsFromConfig(): RegExp[] {
 		console.log('getting custom patterns from configuration');
-		const conf = vscode.workspace.getConfiguration('bibtex-citer');
-		const patterns: string[] = conf.get('customCommandPatterns') || [];
+		const conf = vscode.workspace.getConfiguration('latex-citations');
+		const patterns: string[] = conf.get('customPatterns') || [];
 	
 		return patterns.map(p => `\\\\${p}{`).map(p => new RegExp(p));
 	}

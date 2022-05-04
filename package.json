@@ -1,11 +1,11 @@
 {
-	"name": "bibtex-citer",
-	"displayName": "BibTeX Citer",
+	"name": "latex-citations",
+	"displayName": "Latex Citations",
 	"description": "Intellisense for Keys from your BibTeX Libraries.",
-	"version": "1.2.0",
+	"version": "1.0.0",
 	"publisher": "maltehei",
-	"repository": "https://github.com/MalteHei/bibtex-citer",
-	"bugs": "https://github.com/MalteHei/bibtex-citer/issues",
+	"repository": "https://github.com/MalteHei/latex-citations",
+	"bugs": "https://github.com/MalteHei/latex-citations/issues",
 	"main": "./out/extension.js",
 	"engines": {
 		"vscode": "^1.66.0"
@@ -16,7 +16,9 @@
 	],
 	"keywords": [
 		"latex",
+		"bibtex",
 		"biblatex",
+		"natbib",
 		"cite",
 		"intellisense",
 		"code completion"
@@ -27,17 +29,17 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "bibtex-citer.readLibraries",
-				"title": "BibTeX-Citer: Read Keys from .bib-Files"
+				"command": "latex-citations.readLibraries",
+				"title": "LaTeX-Citations: Update Keys"
 			}
 		],
 		"configuration": {
-			"title": "BibTeX Citer",
+			"title": "LaTeX Citations",
 			"properties": {
-				"bibtex-citer.customCommandPatterns": {
+				"latex-citations.customPatterns": {
 					"type": "array",
 					"default": [],
-					"markdownDescription": "Specify your own regular expressions to test for citation commands. \n\nExample: \n```json \n[ \"myCiteCmd(?<optional>\\\\[.*\\\\]){0,2}\" ] \n``` \nThis will enable Intellisense for the command `\\myCiteCmd`, which can have 2 optional parameters, e.g. `\\myCiteCmd[prenote][postnote]{bibkey}`.",
+					"markdownDescription": "Specify your own regular expressions for commands that should trigger Intellisense. \n\nExample: \n```json \n[ \"myCiteCmd(?<optional>\\\\[.*\\\\]){0,2}\" ] \n``` \nThis will enable Intellisense for the command `\\myCiteCmd`, which can have 2 optional parameters, e.g. `\\myCiteCmd[prenote][postnote]{bibkey}`.",
 					"items": {
 						"type": "string",
 						"pattern": "^.+[^{]$"

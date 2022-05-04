@@ -8,7 +8,7 @@ import { Intellisense } from './intellisense';
  * The key for accessing bibkeys in
  * {@link vscode.ExtensionContext.workspaceState}.
  */
-export const BIBKEYS = 'BIBKEYS';
+export const BIBKEYS_KEY = 'BIBKEYS';
 
 
 function init(ctx: vscode.ExtensionContext): void {
@@ -17,7 +17,7 @@ function init(ctx: vscode.ExtensionContext): void {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-	console.log('Activating "bibtex-citer"');
+	console.log('Activating "latex-citations"');
 	const disposables: vscode.Disposable[] = [];
 
 	init(context);

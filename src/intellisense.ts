@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { CommandPatterns } from "./command-patterns";
-import { BIBKEYS } from './extension';
+import { BIBKEYS_KEY } from './extension';
 import { FileReader } from './file-reader';
 
 export class Intellisense {
@@ -37,7 +37,7 @@ export class Intellisense {
 					return [];
 				}
 
-				const keys = ctx.workspaceState.get<string[]>(BIBKEYS) || FileReader.updateAndGetBibKeys(ctx);
+				const keys = ctx.workspaceState.get<string[]>(BIBKEYS_KEY) || FileReader.updateAndGetBibKeys(ctx);
 				return keys.map(key => new vscode.CompletionItem(key, vscode.CompletionItemKind.Value));
 			}
 		};

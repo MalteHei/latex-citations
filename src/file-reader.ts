@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import * as vscode from 'vscode';
-import { BIBKEYS } from './extension';
+import { BIBKEYS_KEY } from './extension';
 
 export const libraryFileGlob = '**/*.bib';
 
@@ -19,7 +19,7 @@ export class FileReader {
 		// iterate over library-files
 		vscode.workspace.findFiles(libraryFileGlob).then(uris => {
 			// delete current keys
-			ctx.workspaceState.update(BIBKEYS, undefined);
+			ctx.workspaceState.update(BIBKEYS_KEY, undefined);
 
 			uris.forEach(uri => {
 				const fileName = uri.path.replace(/.*\//, '');
@@ -31,14 +31,14 @@ export class FileReader {
 				do {	// iterate over matches
 					if (match?.groups?.bibkey) {
 						keysInFile++;
-						const existingKeys = ctx.workspaceState.get<string[]>(BIBKEYS) || [];
-						ctx.workspaceState.update(BIBKEYS, existingKeys.concat(match.groups.bibkey));
+						const existingKeys = ctx.workspaceState.get<string[]>(BIBKEYS_KEY) || [];
+						ctx.workspaceState.update(BIBKEYS_KEY, existingKeys.concat(match.groups.bibkey));
 					}
 				} while ((match = regexBibkeys.exec(data)) !== null);
 				console.log(`found ${keysInFile} keys in ${fileName}`);
 			});
 
-			keys = ctx.workspaceState.get<string[]>(BIBKEYS) || [];
+			keys = ctx.workspaceState.get<string[]>(BIBKEYS_KEY) || [];
 			console.log(`done reading .bib files!`, `Found ${keys?.length} key(s) in ${uris.length} files(s)`);
 			if (options?.manual) {
 				vscode.window.showInformationMessage(`Finished updating bib keys! Found ${keys?.length} key(s) in ${uris.length} files(s)`);
