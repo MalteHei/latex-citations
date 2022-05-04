@@ -4,12 +4,14 @@ import { Commands } from './commands';
 import { FileReader } from './file-reader';
 import { Intellisense } from './intellisense';
 import { Logger } from './logger';
+import * as packageJSON from '../package.json';
 
 /**
  * The key for accessing bibkeys in
  * {@link vscode.ExtensionContext.workspaceState}.
  */
 export const BIBKEYS_KEY = 'BIBKEYS';
+export const EXTENSION_NAME = packageJSON.name;
 
 
 function init(ctx: vscode.ExtensionContext): void {
@@ -19,7 +21,7 @@ function init(ctx: vscode.ExtensionContext): void {
 
 export function activate(context: vscode.ExtensionContext) {
 	Logger.DEBUG = false;
-	Logger.debug('Activating "latex-citations"');
+	Logger.debug(`Activating "${EXTENSION_NAME}"`);
 	const disposables: vscode.Disposable[] = [];
 
 	init(context);
@@ -37,5 +39,4 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(...disposables);
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() { }

@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { EXTENSION_NAME } from './extension';
 import { Logger } from './logger';
 
 
@@ -47,7 +48,7 @@ export class TriggerPatterns {
 
 	private static getCustomPatternsFromConfig(): RegExp[] {
 		Logger.debug('getting custom patterns from configuration');
-		const conf = vscode.workspace.getConfiguration('latex-citations');
+		const conf = vscode.workspace.getConfiguration(EXTENSION_NAME);
 		const patterns: string[] = conf.get('customPatterns') || [];
 	
 		return patterns.map(p => `\\\\${p}{`).map(p => new RegExp(p, 'i'));

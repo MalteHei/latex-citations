@@ -30,7 +30,8 @@
 		"commands": [
 			{
 				"command": "latex-citations.updateKeys",
-				"title": "LaTeX-Citations: Update Keys"
+				"title": "LaTeX-Citations: Update Keys",
+				"shortTitle": "Update Keys"
 			}
 		],
 		"configuration": {
@@ -63,8 +64,8 @@
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
+		"compile": "tsc -p ./src",
+		"watch": "tsc -watch -p ./src",
 		"pretest": "npm run compile && npm run lint",
 		"lint": "eslint src --ext ts",
 		"test": "node ./out/test/runTest.js",
