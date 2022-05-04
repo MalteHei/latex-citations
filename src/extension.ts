@@ -3,6 +3,7 @@ import { CommandPatterns } from './command-patterns';
 import { Commands } from './commands';
 import { FileReader } from './file-reader';
 import { Intellisense } from './intellisense';
+import { Logger } from './logger';
 
 /**
  * The key for accessing bibkeys in
@@ -17,7 +18,8 @@ function init(ctx: vscode.ExtensionContext): void {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-	console.log('Activating "latex-citations"');
+	Logger.DEBUG = false;
+	Logger.debug('Activating "latex-citations"');
 	const disposables: vscode.Disposable[] = [];
 
 	init(context);

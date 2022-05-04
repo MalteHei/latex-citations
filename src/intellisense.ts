@@ -2,9 +2,10 @@ import * as vscode from 'vscode';
 import { CommandPatterns } from "./command-patterns";
 import { BIBKEYS_KEY } from './extension';
 import { FileReader } from './file-reader';
+import { Logger } from './logger';
 
 export class Intellisense {
-	private static readonly providerOptions = {
+	private static readonly PROVIDER_OPTIONS = {
 		selector: { scheme: 'file', language: 'latex' },
 		triggerChars: ['{'],
 	};
@@ -16,13 +17,13 @@ export class Intellisense {
 	 * otherwise `false`
 	 */
 	public static matchAnyPattern(line: string): boolean {
-		return CommandPatterns.getCommandPatterns().some(pattern => line.match(pattern) !== null)
+		return CommandPatterns.getDefaultPatterns().some(pattern => line.match(pattern) !== null)
 			|| CommandPatterns.getCustomPatterns().some(pattern => line.match(pattern) !== null);
 	}
 
 	/**
 	 * Create a {@link vscode.CompletionItemProvider} that provides bibkeys when
-	 * one of {@link Intellisense.providerOptions.triggerChars} was typed.
+	 * one of {@link Intellisense.PROVIDER_OPTIONS.triggerChars} was typed.
 	 * Whatever comes before this must match a
 	 * {@link CommandPatterns CommandPattern}.
 	 * @returns the {@link vscode.CompletionItemProvider}
@@ -33,7 +34,7 @@ export class Intellisense {
 				// check if an actual latex cite command triggered the completion
 				const line = document.lineAt(position).text.slice(0, position.character);
 				if (!Intellisense.matchAnyPattern(line)) {
-					console.log(`completion triggered but no citation command could be matched`, `for line ${line}`);
+					Logger.debug(`completion triggered but no citation command could be matched`, `for line ${line}`);
 					return [];
 				}
 
@@ -51,9 +52,9 @@ export class Intellisense {
 		const disposables: vscode.Disposable[] = [];
 
 		disposables.push(vscode.languages.registerCompletionItemProvider(
-			Intellisense.providerOptions.selector,
+			Intellisense.PROVIDER_OPTIONS.selector,
 			Intellisense.getLatexProvider(ctx),
-			...Intellisense.providerOptions.triggerChars
+			...Intellisense.PROVIDER_OPTIONS.triggerChars
 		));
 
 		return disposables;
