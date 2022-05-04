@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { CommandPatterns } from './command-patterns';
+import { TriggerPatterns } from './trigger-patterns';
 import { Commands } from './commands';
 import { FileReader } from './file-reader';
 import { Intellisense } from './intellisense';
@@ -14,7 +14,7 @@ export const BIBKEYS_KEY = 'BIBKEYS';
 
 function init(ctx: vscode.ExtensionContext): void {
 	FileReader.updateAndGetBibKeys(ctx);
-	CommandPatterns.updateCustomPatternsFromConfig();
+	TriggerPatterns.updateCustomPatternsFromConfig();
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -26,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// register listeners
 	disposables.push(...FileReader.registerLibraryWatcher(context));
-	disposables.push(...CommandPatterns.registerConfigurationWatcher());
+	disposables.push(...TriggerPatterns.registerConfigurationWatcher());
 
 	// register commands
 	disposables.push(...Commands.registerExtensionCommands(context));

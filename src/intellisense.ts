@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { CommandPatterns } from "./command-patterns";
+import { TriggerPatterns } from "./trigger-patterns";
 import { BIBKEYS_KEY } from './extension';
 import { FileReader } from './file-reader';
 import { Logger } from './logger';
@@ -17,8 +17,8 @@ export class Intellisense {
 	 * otherwise `false`
 	 */
 	public static matchAnyPattern(line: string): boolean {
-		return CommandPatterns.getDefaultPatterns().some(pattern => line.match(pattern) !== null)
-			|| CommandPatterns.getCustomPatterns().some(pattern => line.match(pattern) !== null);
+		return TriggerPatterns.getDefaultPatterns().some(pattern => line.match(pattern) !== null)
+			|| TriggerPatterns.getCustomPatterns().some(pattern => line.match(pattern) !== null);
 	}
 
 	/**

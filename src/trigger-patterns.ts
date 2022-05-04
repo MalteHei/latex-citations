@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { Logger } from './logger';
 
 
-export class CommandPatterns {
+export class TriggerPatterns {
 	private static CUSTOM_PATTERNS: RegExp[] = [];
 	private static DEFAULT_PATTERNS: RegExp[] = [
 		// http://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf
@@ -26,21 +26,21 @@ export class CommandPatterns {
 	];
 
 	public static getDefaultPatterns(): RegExp[] {
-		return CommandPatterns.DEFAULT_PATTERNS;
+		return this.DEFAULT_PATTERNS;
 	}
 
 	public static getCustomPatterns(): RegExp[] {
-		return CommandPatterns.CUSTOM_PATTERNS;
+		return this.CUSTOM_PATTERNS;
 	}
 
 	public static updateCustomPatternsFromConfig(): void {
-		CommandPatterns.CUSTOM_PATTERNS = this.getCustomPatternsFromConfig();
+		this.CUSTOM_PATTERNS = this.getCustomPatternsFromConfig();
 	}
 
 	public static registerConfigurationWatcher(): vscode.Disposable[] {
 		const disposables: vscode.Disposable[] = [];
 
-		disposables.push(vscode.workspace.onDidChangeConfiguration(_ => CommandPatterns.updateCustomPatternsFromConfig()));
+		disposables.push(vscode.workspace.onDidChangeConfiguration(_ => this.updateCustomPatternsFromConfig()));
 
 		return disposables;
 	}
