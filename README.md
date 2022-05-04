@@ -6,9 +6,8 @@
 - Supported commands can be found here:
   - <http://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf>
   - <https://de.overleaf.com/learn/latex/Natbib_citation_styles>
-- Define custom commands to trigger Intellisense via `latex-citations.`
-- Manually update keys via ``
-open the command palette, type `LaTeX-Citations:` and execute the action.
+- Define custom commands to trigger Intellisense via setting `latex-citations.customPatterns`
+- Manually update keys via command called `LaTeX-Citations: Update Keys` (`latex-citations.updateKeys`)
 
 ## Known Issues
 

@@ -29,7 +29,7 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "latex-citations.readLibraries",
+				"command": "latex-citations.updateKeys",
 				"title": "LaTeX-Citations: Update Keys"
 			}
 		],

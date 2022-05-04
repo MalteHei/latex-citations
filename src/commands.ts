@@ -11,7 +11,7 @@ export class Commands {
 		const disposables: vscode.Disposable[] = [];
 
 		// command to invoke updating bibkeys
-		disposables.push(vscode.commands.registerTextEditorCommand('latex-citations.readLibraries', () => {
+		disposables.push(vscode.commands.registerTextEditorCommand('latex-citations.updateKeys', () => {
 			FileReader.updateAndGetBibKeys(ctx, { manual: true });
 		}));
 
