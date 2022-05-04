@@ -1,6 +1,6 @@
 {
 	"name": "latex-citations",
-	"displayName": "Latex Citations",
+	"displayName": "LaTeX Citations",
 	"description": "Intellisense for Keys from your BibTeX Libraries.",
 	"version": "1.0.0",
 	"publisher": "maltehei",
