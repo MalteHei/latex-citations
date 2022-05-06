@@ -5,6 +5,11 @@ import { Logger } from './logger';
 
 export const libraryFileGlob = '**/*.bib';
 
+export interface Result {
+	key: string;
+	title: string;
+}
+
 export class FileReader {
 
 	/**
@@ -12,10 +17,10 @@ export class FileReader {
 	 * to {@link vscode.ExtensionContext.workspaceState}.
 	 * @returns an array containing all bibkeys
 	 */
-	public static updateAndGetBibKeys(ctx: vscode.ExtensionContext, options?: { manual?: boolean; }): string[] {
+	public static updateAndGetBibKeys(ctx: vscode.ExtensionContext, options?: { manual?: boolean; }): Result[] {
 		Logger.debug(`reading all .bib files`);
-		const regexBibkeys = /^\@(?<type>\w+)\{(?<bibkey>[^,]+),$/gm;
-		let keys: string[] = [];
+		const regexBibkeys = /^\@(?<type>\w+)\{(?<bibkey>[^,]+),((\r?\n)*.*(\r?\n)*)*\s*title\s*=\s*{(?<title>.+)}/igm;
+		let results: Result[] = [];
 
 		// iterate over library-files
 		vscode.workspace.findFiles(libraryFileGlob).then(uris => {
@@ -24,28 +29,31 @@ export class FileReader {
 
 			uris.forEach(uri => {
 				const fileName = uri.path.replace(/.*\//, '');
-				let keysInFile = 0;
+				let resultsInFile = 0;
 
 				// read file contents
 				const data = readFileSync(uri.fsPath, 'utf-8');
 				let match = regexBibkeys.exec(data);
 				do {	// iterate over matches
-					if (match?.groups?.bibkey) {
-						keysInFile++;
-						const existingKeys = ctx.workspaceState.get<string[]>(BIBKEYS_KEY) || [];
-						ctx.workspaceState.update(BIBKEYS_KEY, existingKeys.concat(match.groups.bibkey));
+					Logger.debug(`do...`);
+
+					if (match) {
+						resultsInFile++;
+						const result: Result = { key: match.groups!.bibkey, title: match.groups!.title };
+						const existingResults = ctx.workspaceState.get<Result[]>(BIBKEYS_KEY) || [];
+						ctx.workspaceState.update(BIBKEYS_KEY, existingResults.concat(result));
 					}
 				} while ((match = regexBibkeys.exec(data)) !== null);
-				Logger.debug(`found ${keysInFile} keys in ${fileName}`);
+				Logger.debug(`found ${resultsInFile} keys in ${fileName}`);
 			});
 
-			keys = ctx.workspaceState.get<string[]>(BIBKEYS_KEY) || [];
-			Logger.debug(`done reading .bib files!`, `Found ${keys?.length} keys in ${uris.length} files`);
+			results = ctx.workspaceState.get<Result[]>(BIBKEYS_KEY) || [];
+			Logger.debug(`done reading .bib files!`, `Found ${results?.length} results in ${uris.length} files`);
 			if (options?.manual) {
-				vscode.window.showInformationMessage(`Finished updating bib keys! Found ${keys?.length} key(s) in ${uris.length} files(s)`);
+				vscode.window.showInformationMessage(`Finished updating bib keys! Found ${results?.length} key(s) in ${uris.length} files(s)`);
 			}
 		});
-		return keys || [];
+		return results || [];
 	}
 
 	/**

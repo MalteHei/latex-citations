@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { TriggerPatterns } from "./trigger-patterns";
 import { BIBKEYS_KEY } from './extension';
-import { FileReader } from './file-reader';
+import { FileReader, Result } from './file-reader';
 import { Logger } from './logger';
 
 export class Intellisense {
@@ -38,8 +38,8 @@ export class Intellisense {
 					return [];
 				}
 
-				const keys = ctx.workspaceState.get<string[]>(BIBKEYS_KEY) || FileReader.updateAndGetBibKeys(ctx);
-				return keys.map(key => new vscode.CompletionItem(key, vscode.CompletionItemKind.Value));
+				const results: Result[] = ctx.workspaceState.get<Result[]>(BIBKEYS_KEY) || FileReader.updateAndGetBibKeys(ctx);
+				return results.map(result => new vscode.CompletionItem({ label: result.key, description: result.title }, vscode.CompletionItemKind.Value));
 			}
 		};
 	}
