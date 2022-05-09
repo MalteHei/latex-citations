@@ -19,7 +19,7 @@ export class FileReader {
 	 */
 	public static updateAndGetBibKeys(ctx: vscode.ExtensionContext, options?: { manual?: boolean; }): Result[] {
 		Logger.debug(`reading all .bib files`);
-		const regexBibkeys = /^\@(?<type>\w+)\{(?<bibkey>[^,]+),((\r?\n)*.*(\r?\n)*)*\s*title\s*=\s*{(?<title>.+)}/igm;
+		const regexBibkeys = /^\@(?<type>\w+)\{(?<bibkey>[^,]+),(\r?\n.*\r?\n)*\s*title\s*=\s*{(?<title>.+)}/igm;
 		let results: Result[] = [];
 
 		// iterate over library-files
@@ -34,9 +34,8 @@ export class FileReader {
 				// read file contents
 				const data = readFileSync(uri.fsPath, 'utf-8');
 				let match = regexBibkeys.exec(data);
+				Logger.debug(`iterating over regex matches in ${fileName}`);
 				do {	// iterate over matches
-					Logger.debug(`do...`);
-
 					if (match) {
 						resultsInFile++;
 						const result: Result = { key: match.groups!.bibkey, title: match.groups!.title };
