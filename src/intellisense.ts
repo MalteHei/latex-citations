@@ -31,6 +31,7 @@ export class Intellisense {
 	public static getLatexProvider(ctx: vscode.ExtensionContext): vscode.CompletionItemProvider<vscode.CompletionItem> {
 		return {
 			provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext): vscode.CompletionItem[] {
+				Logger.debug('providing completion items');
 				// check if an actual latex cite command triggered the completion
 				const line = document.lineAt(position).text.slice(0, position.character);
 				if (!Intellisense.matchAnyPattern(line)) {

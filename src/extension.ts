@@ -21,7 +21,7 @@ function init(ctx: vscode.ExtensionContext): void {
 
 export function activate(context: vscode.ExtensionContext) {
 	Logger.DEBUG = false;
-	Logger.debug(`Activating "${EXTENSION_NAME}"`);
+	Logger.debug(`activating`);
 	const disposables: vscode.Disposable[] = [];
 
 	init(context);
@@ -37,6 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
 	disposables.push(...Intellisense.registerCompletionItemProvider(context));
 
 	context.subscriptions.push(...disposables);
+	Logger.debug('activated');
 }
 
 export function deactivate() { }
