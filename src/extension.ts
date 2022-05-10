@@ -20,7 +20,7 @@ function init(ctx: vscode.ExtensionContext): void {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-	Logger.DEBUG = false;
+	Logger.DEBUG = vscode.workspace.getConfiguration(EXTENSION_NAME).get('debug') || packageJSON.contributes.configuration.properties['latex-citations.debug'].default;
 	Logger.debug(`activating`);
 	const disposables: vscode.Disposable[] = [];
 
@@ -29,6 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// register listeners
 	disposables.push(...FileReader.registerLibraryWatcher(context));
 	disposables.push(...TriggerPatterns.registerConfigurationWatcher());
+	disposables.push(...Logger.registerConfigurationWatcher());
 
 	// register commands
 	disposables.push(...Commands.registerExtensionCommands(context));

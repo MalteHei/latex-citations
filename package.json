@@ -37,6 +37,11 @@
 		"configuration": {
 			"title": "LaTeX Citations",
 			"properties": {
+				"latex-citations.debug": {
+					"markdownDescription": "Enable debug output",
+					"type": "boolean",
+					"default": false
+				},
 				"latex-citations.customPatterns": {
 					"type": "array",
 					"default": [],
