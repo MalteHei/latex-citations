@@ -2,7 +2,7 @@
 	"name": "latex-citations",
 	"displayName": "LaTeX Citations",
 	"description": "Intellisense for Keys from your BibTeX Libraries.",
-	"version": "1.2.2",
+	"version": "1.3.0",
 	"publisher": "maltehei",
 	"repository": "https://github.com/MalteHei/latex-citations",
 	"bugs": "https://github.com/MalteHei/latex-citations/issues",
