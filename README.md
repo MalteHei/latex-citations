@@ -12,9 +12,3 @@
 ## Known Issues
 
 If you encounter any bugs related to this extension, please feel free to [open an issue](https://github.com/MalteHei/latex-citations/issues).
-
-## Release Notes
-
-### 1.0.0
-
-Initial release
